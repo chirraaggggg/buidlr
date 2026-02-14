@@ -1,11 +1,13 @@
-import Header from "./_common/header";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import LandingSection from "./_common/landing-section";
 
-export default function Home() {
+export default async function Home() {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  
   return (
     <>
-      <LandingSection/>
-      <Header/>
+      <LandingSection user={user} />
     </>
   );
 }

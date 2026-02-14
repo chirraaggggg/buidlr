@@ -3,12 +3,13 @@
 import React, { useState } from 'react'
 import PromptInput from '@/components/prompt-input'
 import { Suggestion } from '@/components/ai-elements/suggestion'
-import Head from 'next/head'
 import Header from './header'
 
-type Props = {}
+type Props = {
+    user: any;
+}
 
-const LandingSection = () => {
+const LandingSection = ({ user }: Props) => {
     const [promptText, setPromptText] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(null)
@@ -64,7 +65,7 @@ const LandingSection = () => {
   return (
     <div className='w-full min-h-screen bg-gradient-to-b from-background via-background to-primary/5'>
         <div className='flex flex-col'>
-            <Header />
+            <Header user={user} />
             <div className='relative overflow-hidden pt-20 md:pt-28'>
                 <div className='max-w-6xl mx-auto flex flex-col items-center justify-center px-4'>
                     <div className='space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700'>
