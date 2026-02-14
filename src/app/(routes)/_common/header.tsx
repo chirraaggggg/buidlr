@@ -6,8 +6,29 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { RegisterLink, LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-const Header = () => {
+const Header = async () => {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  
+  return (
+    <HeaderClient user={user} />
+  );
+};
+
+const HeaderClient = ({ user }: { user: any }) => {
   const { theme, setTheme } = useTheme();
   const [isPending, startTransition] = useTransition();
   const isDark = theme === "dark";
@@ -50,7 +71,32 @@ const Header = () => {
               />
               <span className="sr-only">Toggle theme</span>
             </Button>
-            <Button>Sign in</Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar className="h-8 w-8 shrink-0 rounded-full">
+                    <AvatarImage src={user?.picture} alt={user?.given_name || "User Avatar"} />
+                    <AvatarFallback className="rounded-lg">
+                      {user?.given_name?.charAt(0)}
+                      {user?.family_name?.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <LogoutLink className="w-full flex items-center">
+                      Logout
+                    </LogoutLink>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <LoginLink>
+                <Button>Sign in</Button>
+              </LoginLink>
+            )}
           </div>
         </div>
       </header>
