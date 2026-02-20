@@ -90,7 +90,7 @@ const LandingSection = ({ user }: Props) => {
                     </div>
 
                     {/* Semi-circle line decoration */}
-                    <div className='w-full h-40 pointer-events-none mt-16'>
+                    <div className='w-full h-40 pointer-events-none mt-2'>
                         <svg className='w-full h-full' viewBox='0 0 1200 200' preserveAspectRatio='none'>
                             <path 
                                 d='M 0 200 Q 600 0 1200 200' 
