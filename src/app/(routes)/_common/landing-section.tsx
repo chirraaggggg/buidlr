@@ -15,36 +15,12 @@ const LandingSection = ({ user }: Props) => {
     const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(null)
     
     const suggestions = [
-        {
-            label: "Finance Tracker",
-            icon: "💚",
-            value: "I want to design a personal finance tracker app"
-        },
-        {
-            label: "Fitness Activity",
-            icon: "🟠",
-            value: "I want to design a fitness activity tracking app"
-        },
-        {
-            label: "Food Delivery",
-            icon: "🟤",
-            value: "I want to design a food delivery app"
-        },
-        {
-            label: "Travel Booking",
-            icon: "🔵",
-            value: "I want to design a travel booking app"
-        },
-        {
-            label: "E-Commerce",
-            icon: "💜",
-            value: "I want to design an e-commerce shopping app"
-        },
-        {
-            label: "Meditation",
-            icon: "🟡",
-            value: "I want to design a meditation and wellness app"
-        },
+        { label: "Finance Tracker", value: "I want to design a personal finance tracker app" },
+        { label: "Fitness Activity", value: "I want to design a fitness activity tracking app" },
+        { label: "Food Delivery", value: "I want to design a food delivery app" },
+        { label: "Travel Booking", value: "I want to design a travel booking app" },
+        { label: "E-Commerce", value: "I want to design an e-commerce shopping app" },
+        { label: "Meditation", value: "I want to design a meditation and wellness app" },
     ];
 
     const handleSuggestionClick = (value: string, label: string) => {
@@ -103,7 +79,6 @@ const LandingSection = ({ user }: Props) => {
                                     }`}
                                     onClick={() => handleSuggestionClick(s.value, s.label)} 
                                 >
-                                    <span className='mr-2'>{s.icon}</span>
                                     <span className='font-medium'>{s.label}</span>
                                 </Suggestion>
                             ))}
