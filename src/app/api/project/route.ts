@@ -1,36 +1,59 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { generateProjectName } from "@/app/action/action";
 
 export async function POST(request: Request) {
   try {
-    const { prompt } = await request.json();
-    const session = await getKindeServerSession();
-    const user = await session.getUser();
+    const body = await request.json();
+    const { prompt } = body;
 
-    if (!user) throw new Error("Unauthorized");
-    if (!prompt) throw new Error("Missing Prompt");
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
+
+    if (!user || !user.id) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+    if (!prompt) {
+      return NextResponse.json(
+        { success: false, error: "Missing Prompt" },
+        { status: 400 }
+      );
+    }
 
     const userId = user.id;
 
-    // const projectName = await generateProjectName(prompt)
+    let projectName = "Untitled Project";
+    try {
+      projectName = await generateProjectName(prompt);
+    } catch (e) {
+      console.error("Failed to generate project name:", e);
+    }
 
     const project = await prisma.project.create({
       data: {
         userId,
-        name: ""
-      }
-    })
+        name: projectName,
+      },
+    });
 
     return NextResponse.json({
-        success: true,
-        data: project,
+      success: true,
+      data: project,
     });
   } catch (error) {
-    console.log("Error creating project:", error);
-    return NextResponse.json({
+    console.error("Error creating project:", error);
+    return NextResponse.json(
+      {
         success: false,
-        error: (error as Error).message || "An error occurred while creating the project",
-    }, { status: 500 });
+        error:
+          (error as Error).message ||
+          "An error occurred while creating the project",
+      },
+      { status: 500 }
+    );
   }
 }

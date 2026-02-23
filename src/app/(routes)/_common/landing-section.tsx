@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import PromptInput from '@/components/prompt-input'
 import { Suggestion } from '@/components/ai-elements/suggestion'
 import Header from './header'
+import { useCreateProject } from '../../../../features/use-project'
 
 type Props = {
     user: any;
@@ -11,8 +12,9 @@ type Props = {
 
 const LandingSection = ({ user }: Props) => {
     const [promptText, setPromptText] = useState<string>("")
-    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(null)
+    
+    const { mutate, isPending } = useCreateProject();
     
     const suggestions = [
         { label: "Finance Tracker", value: "I want to design a personal finance tracker app" },
@@ -29,13 +31,8 @@ const LandingSection = ({ user }: Props) => {
     }
 
     const handleSubmit = () => {
-        if (promptText.trim()) {
-            setIsLoading(true);
-            // Simulate processing
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 2000);
-        }
+        if (!promptText.trim()) return;
+        mutate(promptText);
     }
 
   return (
@@ -62,7 +59,7 @@ const LandingSection = ({ user }: Props) => {
                                 className="ring-2 ring-primary/30 hover:ring-primary transition-all duration-300"
                                 promptText={promptText}
                                 setPromptText={setPromptText}
-                                isLoading={isLoading}
+                                isLoading={isPending}
                                 onSubmit={handleSubmit}
                             />
                         </div>

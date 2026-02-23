@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { QueryProvider } from "../../context/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const jostSans = Jost({
   variable: "--font-jost-sans",
@@ -27,14 +29,17 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
         <head />
         <body>
-          <ThemeProvider
+          <QueryProvider>
+            <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
             {children}
+            <Toaster richColors position="top-right" />
           </ThemeProvider>
+          </QueryProvider>
         </body>
       </html>
   );
