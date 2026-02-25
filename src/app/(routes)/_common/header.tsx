@@ -65,6 +65,7 @@ const Header = ({ user }: { user: any }) => {
               </Button>
             )}
             {user ? (
+              mounted ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="outline-none">
@@ -85,6 +86,14 @@ const Header = ({ user }: { user: any }) => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              ) : (
+                <Avatar className="h-8 w-8 shrink-0 rounded-full">
+                  <AvatarFallback className="rounded-lg">
+                    {user?.given_name?.charAt(0)}
+                    {user?.family_name?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              )
             ) : (
               <LoginLink>
                 <Button>Sign in</Button>
