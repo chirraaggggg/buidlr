@@ -115,13 +115,12 @@ const LandingSection = ({ user }: Props) => {
           </div>
 
           {/* Semi-circle ring decoration — behind the prompt box */}
-          <div className="absolute left-0 right-0 pointer-events-none z-0" style={{ top: "10%" }}>
+          <div className="absolute left-0 right-0 pointer-events-none z-0 top-[20%] sm:top-[15%] md:top-[10%] h-[250px] sm:h-[350px] md:h-[500px]">
             <svg
-              className="w-full"
+              className="w-full h-full"
               viewBox="0 0 1440 500"
-              preserveAspectRatio="none"
+              preserveAspectRatio="xMidYMax meet"
               fill="none"
-              style={{ height: "500px" }}
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
