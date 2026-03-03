@@ -8,6 +8,20 @@ export default async function Home() {
   return (
     <>
       <LandingSection user={user} />
+      <div className="relative h-screen w-full flex flex-col">
+        <CanvasProvider
+        initialFrames={frames}
+        initialThemeId={themeId}
+        hasInitialData={hasInitialData}
+        projectId={project?.id}
+        >
+          <div className="flex w-full overflow-hidden">
+            <div className="relative">
+              <Canvas/>
+            </div>
+          </div>
+        </CanvasProvider>
+      </div>
     </>
   );
 }
