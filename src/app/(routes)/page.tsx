@@ -15,7 +15,7 @@ export default async function Home() {
         hasInitialData={hasInitialData}
         projectId={project?.id}
         >
-          <div className="flex w-full overflow-hidden">
+          <div className="flex flex-1 overflow-hidden">
             <div className="relative">
               <Canvas/>
             </div>
