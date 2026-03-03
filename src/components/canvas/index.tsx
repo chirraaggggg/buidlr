@@ -30,7 +30,11 @@ const Canvas: React.FC = () => {
       <div className={cn(
         `absolute inset-0 w-full h-full bg-[#eee]
         dark:bg-[#242423] p-3
-        `)}></div>
+        `)}
+        style={
+          backgroundImage: "radoal-gradient(circle, var(--primary)) 1px, transparent 1px"
+        }
+        ></div>
     </div>
   )
   return (
