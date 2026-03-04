@@ -2,9 +2,12 @@
 
 import React from "react";
 import { useCanvas } from "../../../context/canvas-context";
+import type { LoadingStatusType } from "../../../context/canvas-context";
+import { cn } from "@/lib/utils";
+import { Spinner } from "@/components/ui/spinner";
 
 const Canvas: React.FC = () => {
-  const { frames, theme } = useCanvas();
+  const { frames, theme, isPending, loadingStatus } = useCanvas();
 
   const latestFrame = frames[frames.length - 1];
 
@@ -20,23 +23,27 @@ const Canvas: React.FC = () => {
 
   const currentStatus = isPending
     ? "fetching"
-    : loadingStatus !=== "idle" && loadingStatus !== "completed"
+    : loadingStatus !== "idle" && loadingStatus !== "completed"
     ? loadingStatus
     : null;
     
-  return(
-    <div className="relativ w-fu;; h-full overflow-hidden">
-      {currentStatus && <CanvasLoader status={currentStatus} />}
-      <div className={cn(
-        `absolute inset-0 w-full h-full bg-[#eee]
+  if (currentStatus) {
+    return (
+      <div className="relative w-full h-full overflow-hidden">
+        <CanvasLoader status={currentStatus} />
+        <div
+          className={cn(
+            `absolute inset-0 w-full h-full bg-[#eee]
         dark:bg-[#242423] p-3
         `)}
-        style={
-          backgroundImage: "radoal-gradient(circle, var(--primary)) 1px, transparent 1px"
-        }
+          style={{
+            backgroundImage: "radial-gradient(circle, var(--primary) 1px, transparent 1px)"
+          }}
         ></div>
-    </div>
-  )
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-full w-full items-center justify-center bg-muted/20 p-6">
       <div className="relative h-[720px] w-[400px] overflow-hidden rounded-3xl border bg-background shadow-xl">
@@ -58,7 +65,7 @@ const Canvas: React.FC = () => {
   );
 };
 
-function CanvasLoader({string}: { status?: LoadingStatusType | "fetching" }) {
+function CanvasLoader({ status }: { status?: LoadingStatusType | "fetching" }) {
     return(
         <div className={cn(
             `absolute top-4 left-1/2 -translate-x-1/2 min-w-40 max-w-full px-4 pt-1.5 pb-2 rounded-br-xl rounded-bl-xl shadow-md flex items-center space-x-2 z-50`,

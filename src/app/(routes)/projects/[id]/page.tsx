@@ -30,6 +30,7 @@ const Page = () => {
         initialTheme={theme}
         hasInitialData={hasInitialData}
         projectId={project?.id}
+        isPending={isPending}
       >
         <div className="flex w-full overflow-auto">
         <div className="relative">

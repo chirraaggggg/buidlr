@@ -8,12 +8,14 @@ import {
 } from "@/lib/themes";
 import { FrameType } from "../types/project";
 
-type LoadingStatusTyp =
+type LoadingStatusType =
   | "idle"
   | "running"
   | "analyzing"
   | "generating"
   | "completed";
+
+export type { LoadingStatusType };
 
 export interface CanvasContextType {
   theme: ThemeType;
@@ -41,6 +43,8 @@ export interface CanvasContextType {
 
   hasInitialData: boolean;
   projectId?: string;
+  isPending?: boolean;
+  loadingStatus?: LoadingStatusType;
 }
 
 const CanvasContext = React.createContext<CanvasContextType | undefined>(
@@ -52,6 +56,8 @@ interface CanvasProviderProps {
   initialTheme: string;
   hasInitialData: boolean;
   projectId?: string;
+  isPending?: boolean;
+  loadingStatus?: LoadingStatusType;
   children: React.ReactNode;
 }
 
@@ -60,6 +66,8 @@ export const CanvasProvider: React.FC<CanvasProviderProps> = ({
   initialTheme,
   hasInitialData,
   projectId,
+  isPending,
+  loadingStatus,
   children,
 }) => {
   const [frames, setFrames] = React.useState<FrameType[]>(() => initialFrames);
@@ -98,6 +106,8 @@ export const CanvasProvider: React.FC<CanvasProviderProps> = ({
     updateFrame,
     hasInitialData,
     projectId,
+    isPending,
+    loadingStatus,
   };
 
   return (
