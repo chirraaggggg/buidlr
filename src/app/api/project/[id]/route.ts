@@ -47,3 +47,35 @@ export async function GET(
     );
   }
 }
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
+    if (!user) throw new Error("Unauthorized");
+
+    const { id } = await params;
+    const body = await request.json();
+    const { theme, thumbnail } = body;
+
+    const updated = await prisma.project.update({
+      where: { id, userId: user.id },
+      data: {
+        ...(theme !== undefined && { theme }),
+        ...(thumbnail !== undefined && { thumbnail }),
+      },
+    });
+
+    return NextResponse.json({ success: true, data: updated });
+  } catch (error) {
+    console.log("Error updating project:", error);
+    return NextResponse.json(
+      { error: "Failed to update project" },
+      { status: 500 }
+    );
+  }
+}
+

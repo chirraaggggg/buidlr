@@ -4,6 +4,9 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useGetProjectById } from "../../../../../features/use-project-id";
 import Header from "./_components/Header";
+import { CanvasProvider } from "../../../../../context/canvas-context";
+import Canvas from "@/components/canvas";
+import CanvasFloatingToolbar from "@/components/canvas/canvas-floating-toolbar";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,11 +21,7 @@ const Page = () => {
   }
 
   return (
-    <div
-      className="relative h-screen w-full
-      flex flex-col
-      "
-    >
+    <div className="relative h-screen w-full flex flex-col">
       <Header projectName={project?.name} />
 
       <CanvasProvider
@@ -32,14 +31,18 @@ const Page = () => {
         projectId={project?.id}
         isPending={isPending}
       >
-        <div className="flex w-full overflow-auto">
-        <div className="relative">
-          <canvas />
+        {/* Floating toolbar — must be inside CanvasProvider to access useCanvas() */}
+        <CanvasFloatingToolbar />
+
+        <div className="flex w-full flex-1 overflow-auto">
+          <div className="relative w-full">
+            <Canvas />
+          </div>
         </div>
-      </div>
       </CanvasProvider>
     </div>
   );
 };
 
 export default Page;
+

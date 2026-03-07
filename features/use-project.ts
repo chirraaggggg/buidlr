@@ -8,9 +8,7 @@ export const useCreateProject = () => {
   return useMutation({
     mutationFn: async (prompt: string) =>
       await axios
-        .post("/api/project", {
-          prompt,
-        })
+        .post("/api/project", { prompt })
         .then((res) => res.data),
     onSuccess: (data) => {
       router.push(`/projects/${data.data.id}`);
@@ -30,5 +28,20 @@ export const useGetProjects = (userId?: string) => {
       return res.data.data;
     },
     enabled: !!userId,
+  });
+};
+
+export const useSaveProject = (projectId: string) => {
+  return useMutation({
+    mutationFn: async (data: { theme?: string; thumbnail?: string }) => {
+      const res = await axios.patch(`/api/project/${projectId}`, data);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Project saved!");
+    },
+    onError: () => {
+      toast.error("Failed to save project");
+    },
   });
 };

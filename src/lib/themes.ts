@@ -202,6 +202,188 @@ export const THEMES = [
 --font-heading: "JetBrains Mono";
 `),
   },
+  {
+    id: "lavender",
+    name: "Lavender",
+    style: stylesheet(`
+--background: #f9f7ff;
+--foreground: #1e1b4b;
+--card: #ffffff;
+--card-foreground: #1e1b4b;
+--popover: #ffffff;
+--popover-foreground: #1e1b4b;
+--primary: #7c3aed;
+--primary-foreground: #ffffff;
+--secondary: #ede9fe;
+--secondary-foreground: #1e1b4b;
+--muted: #f3f0ff;
+--muted-foreground: #6d28d9;
+--accent: #ddd6fe;
+--accent-foreground: #1e1b4b;
+--destructive: #ef4444;
+--destructive-foreground: #ffffff;
+--border: #ddd6fe;
+--input: #ddd6fe;
+--ring: #7c3aed;
+--link: #6d28d9;
+`),
+  },
+  {
+    id: "rose-gold",
+    name: "Rose Gold",
+    style: stylesheet(`
+--background: #fff5f7;
+--foreground: #3b0a1f;
+--card: #ffffff;
+--card-foreground: #3b0a1f;
+--popover: #ffffff;
+--popover-foreground: #3b0a1f;
+--primary: #e11d48;
+--primary-foreground: #ffffff;
+--secondary: #ffe4e6;
+--secondary-foreground: #3b0a1f;
+--muted: #fff1f2;
+--muted-foreground: #9f1239;
+--accent: #fecdd3;
+--accent-foreground: #3b0a1f;
+--destructive: #dc2626;
+--destructive-foreground: #ffffff;
+--border: #fecdd3;
+--input: #fecdd3;
+--ring: #e11d48;
+--link: #be123c;
+`),
+  },
+  {
+    id: "neon",
+    name: "Neon",
+    style: stylesheet(`
+--background: #0a0a0f;
+--foreground: #e0e0ff;
+--card: #0f0f1a;
+--card-foreground: #e0e0ff;
+--popover: #0f0f1a;
+--popover-foreground: #e0e0ff;
+--primary: #00ff88;
+--primary-foreground: #000;
+--secondary: #1a1a2e;
+--secondary-foreground: #e0e0ff;
+--muted: #16213e;
+--muted-foreground: #00ccff;
+--accent: #0f3460;
+--accent-foreground: #00ff88;
+--destructive: #ff004f;
+--destructive-foreground: #ffffff;
+--border: #1e1e3a;
+--input: #1e1e3a;
+--ring: #00ff88;
+--link: #00ccff;
+`),
+  },
+  {
+    id: "cyber",
+    name: "Cyber",
+    style: stylesheet(`
+--background: #0d0d0e;
+--foreground: #f0f0f0;
+--card: #111113;
+--card-foreground: #f0f0f0;
+--popover: #111113;
+--popover-foreground: #f0f0f0;
+--primary: #facc15;
+--primary-foreground: #000;
+--secondary: #1c1c1e;
+--secondary-foreground: #f0f0f0;
+--muted: #1c1c1e;
+--muted-foreground: #999;
+--accent: #27272a;
+--accent-foreground: #facc15;
+--destructive: #ef4444;
+--destructive-foreground: #fff;
+--border: #27272a;
+--input: #27272a;
+--ring: #facc15;
+--link: #facc15;
+`),
+  },
+  {
+    id: "peach",
+    name: "Peach",
+    style: stylesheet(`
+--background: #fffaf7;
+--foreground: #431407;
+--card: #ffffff;
+--card-foreground: #431407;
+--popover: #ffffff;
+--popover-foreground: #431407;
+--primary: #fb923c;
+--primary-foreground: #fff;
+--secondary: #ffedd5;
+--secondary-foreground: #431407;
+--muted: #fff7ed;
+--muted-foreground: #9a3412;
+--accent: #fed7aa;
+--accent-foreground: #431407;
+--destructive: #ef4444;
+--destructive-foreground: #fff;
+--border: #fdba74;
+--input: #fdba74;
+--ring: #f97316;
+--link: #ea580c;
+`),
+  },
+  {
+    id: "glacier",
+    name: "Glacier",
+    style: stylesheet(`
+--background: #f0f9ff;
+--foreground: #0c1445;
+--card: #ffffff;
+--card-foreground: #0c1445;
+--popover: #ffffff;
+--popover-foreground: #0c1445;
+--primary: #0284c7;
+--primary-foreground: #fff;
+--secondary: #e0f2fe;
+--secondary-foreground: #0c1445;
+--muted: #f0f9ff;
+--muted-foreground: #0369a1;
+--accent: #bae6fd;
+--accent-foreground: #0c1445;
+--destructive: #ef4444;
+--destructive-foreground: #fff;
+--border: #7dd3fc;
+--input: #7dd3fc;
+--ring: #0284c7;
+--link: #0369a1;
+`),
+  },
+  {
+    id: "monochrome",
+    name: "Monochrome",
+    style: stylesheet(`
+--background: #fafafa;
+--foreground: #111;
+--card: #ffffff;
+--card-foreground: #111;
+--popover: #ffffff;
+--popover-foreground: #111;
+--primary: #222;
+--primary-foreground: #fff;
+--secondary: #e5e5e5;
+--secondary-foreground: #111;
+--muted: #f5f5f5;
+--muted-foreground: #666;
+--accent: #d4d4d4;
+--accent-foreground: #111;
+--destructive: #dc2626;
+--destructive-foreground: #fff;
+--border: #d4d4d4;
+--input: #d4d4d4;
+--ring: #222;
+--link: #333;
+`),
+  },
 ] as const satisfies ReadonlyArray<ThemeType>;
 
 export type ThemeId = (typeof THEMES)[number]["id"];
