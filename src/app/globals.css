@@ -200,3 +200,25 @@
     letter-spacing: var(--tracking-normal);
   }
 }
+
+/* Design canvas workspace (projects /projects/[id]) */
+@layer utilities {
+  .bg-canvas-dot-grid {
+    background-color: #e4e4e8;
+    background-image: radial-gradient(
+      circle,
+      rgb(0 0 0 / 0.12) 1px,
+      transparent 1px
+    );
+    background-size: 18px 18px;
+    background-position: 0 0;
+  }
+  .dark .bg-canvas-dot-grid {
+    background-color: #18181b;
+    background-image: radial-gradient(
+      circle,
+      rgb(255 255 255 / 0.08) 1px,
+      transparent 1px
+    );
+  }
+}

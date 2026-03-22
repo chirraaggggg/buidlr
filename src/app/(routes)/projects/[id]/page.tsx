@@ -21,7 +21,7 @@ const Page = () => {
   }
 
   return (
-    <div className="relative h-screen w-full flex flex-col">
+    <div className="relative flex h-screen min-h-0 w-full flex-col overflow-hidden">
       <Header projectName={project?.name} />
 
       <CanvasProvider
@@ -34,11 +34,14 @@ const Page = () => {
         {/* Floating toolbar — must be inside CanvasProvider to access useCanvas() */}
         <CanvasFloatingToolbar />
 
-        <div className="flex w-full flex-1 overflow-auto">
-          <div className="relative w-full">
+        <main
+          className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-canvas-dot-grid"
+          aria-label="Canvas workspace"
+        >
+          <div className="relative min-h-0 flex-1">
             <Canvas />
           </div>
-        </div>
+        </main>
       </CanvasProvider>
     </div>
   );

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ThemeSelector } from "./theme-selector";
 import { Button } from "@/components/ui/button";
-import { Camera, Save, Sparkles, RotateCcw } from "lucide-react";
+import { Camera, Palette, Save, Sparkles, RotateCcw } from "lucide-react";
 import { useCanvas } from "../../../context/canvas-context";
 import { useSaveProject } from "../../../features/use-project";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -48,7 +48,7 @@ const CanvasFloatingToolbar = () => {
   };
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+    <div className="fixed top-[4.75rem] left-1/2 z-50 -translate-x-1/2 sm:top-20">
       <div className="flex items-center gap-0.5 bg-white dark:bg-gray-900 rounded-full shadow-lg border border-gray-100 dark:border-gray-800 px-1.5 py-1.5">
 
         {/* AI / Sparkle button — opens prompt popover */}
@@ -81,6 +81,18 @@ const CanvasFloatingToolbar = () => {
             />
           </PopoverContent>
         </Popover>
+
+        {/* Palette — quick access to theme colors (opens theme popover via selector) */}
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="rounded-full w-9 h-9 text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 shrink-0"
+          title="Theme palette"
+          aria-label="Theme palette"
+        >
+          <Palette className="w-4 h-4" />
+        </Button>
 
         {/* Undo button */}
         <Button

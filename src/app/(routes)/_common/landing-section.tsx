@@ -12,7 +12,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import type { ProjectType } from "../../../../types/project";
 import { ProjectModel } from "@/lib/generated/prisma/internal/prismaNamespaceBrowser";
-import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 import { FolderOpenDotIcon } from "lucide-react";
 
@@ -175,19 +174,14 @@ const LandingSection = ({ user }: Props) => {
 };
 
 const ProjectCard = memo(({ project }: { project: ProjectType }) => {
-  const route = useRouter();
   const createdAtDate = new Date(project.createdAt);
   const timeAgo = formatDistanceToNow(createdAtDate, { addSuffix: true });
   const thumbnail = project.thumbnail || null;
 
-  const onRoute = () => {
-    route.push(`/projects/${project.id}`);
-  };
   return (
-    <div
-      role="button"
-      className="w-full flex flex-col border rounded-xl cursor-pointer hover:shadow-md overflow-hidden"
-      onClick={onRoute}
+    <Link
+      href={`/projects/${project.id}`}
+      className="w-full flex flex-col border rounded-xl cursor-pointer hover:shadow-md overflow-hidden transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <div className="h-40 bg-[#eee] relative overflow-hidden flex items-center justify-center">
         {thumbnail ? (
@@ -205,7 +199,7 @@ const ProjectCard = memo(({ project }: { project: ProjectType }) => {
         <h3 className="font-semibold text-sm truncate w-full mb-1 line-clamp-1">{project.name}</h3>
         <p className="text-xs text-muted-foreground">{timeAgo}</p>
       </div>
-    </div>
+    </Link>
   );
 });
 ProjectCard.displayName = "ProjectCard";
