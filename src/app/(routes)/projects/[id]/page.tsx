@@ -21,9 +21,19 @@ const Page = () => {
   }
 
   return (
-    <div className="relative flex h-screen min-h-0 w-full flex-col overflow-hidden">
+    /*
+     * Full-viewport column.
+     * overflow-hidden is removed so portaled controls (position:fixed) are
+     * not clipped — the header/body scroll is stopped by h-screen on the root.
+     */
+    <div className="flex h-screen w-full flex-col">
       <Header projectName={project?.name} />
 
+      {/*
+       * CanvasProvider must wrap the toolbar AND the canvas so both can
+       * call useCanvas(). We give it flex-1 + min-h-0 so it fills the
+       * remaining height and its children can use h-full / flex-1.
+       */}
       <CanvasProvider
         initialFrames={frames}
         initialTheme={theme}
@@ -31,14 +41,20 @@ const Page = () => {
         projectId={project?.id}
         isPending={isPending}
       >
-        {/* Floating toolbar — must be inside CanvasProvider to access useCanvas() */}
+        {/* Top floating toolbar */}
         <CanvasFloatingToolbar />
 
+        {/*
+         * Canvas workspace.
+         * flex-1 + min-h-0 + explicit height via flex ensures TransformWrapper
+         * gets a real measured height and can receive pointer events.
+         */}
         <main
-          className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-canvas-dot-grid"
+          className="relative flex-1 min-h-0 bg-canvas-dot-grid"
           aria-label="Canvas workspace"
         >
-          <div className="relative min-h-0 flex-1">
+          {/* h-full propagates the measured height into the Canvas component */}
+          <div className="h-full w-full">
             <Canvas />
           </div>
         </main>
@@ -48,4 +64,3 @@ const Page = () => {
 };
 
 export default Page;
-

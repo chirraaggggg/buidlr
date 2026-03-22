@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { Hand, MousePointer, ZoomIn, ZoomOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { MousePointer2, Hand, Minus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TOOL_MODE_ENUM, type ToolModeType } from "@/lib/canvas-tools";
 
@@ -26,78 +25,103 @@ const CanvasControls: React.FC<CanvasControlsProps> = ({
   return (
     <div
       className={cn(
-        "z-50 flex items-center gap-1 rounded-full border bg-zinc-900 px-2 py-1.5 shadow-lg backdrop-blur-sm",
-        "dark:border-zinc-700 dark:bg-zinc-950/95",
+        // Dark pill — matches reference screenshot exactly
+        "flex items-center gap-0.5 rounded-full border border-white/10 bg-zinc-900 px-1.5 py-1.5 shadow-2xl",
         className
       )}
       role="toolbar"
       aria-label="Canvas controls"
     >
-      {/* Match reference: pointer (select) → hand → separator → zoom */}
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className={cn(
-          "size-8 shrink-0 text-white hover:bg-white/15 hover:text-white",
-          toolMode === TOOL_MODE_ENUM.SELECT &&
-            "bg-white/20 text-white ring-1 ring-white/40"
-        )}
+      {/* ── Select tool ─────────────────────────────────────── */}
+      <ToolBtn
+        active={toolMode === TOOL_MODE_ENUM.SELECT}
         onClick={() => toolType(TOOL_MODE_ENUM.SELECT)}
-        aria-label="Select tool"
-        aria-pressed={toolMode === TOOL_MODE_ENUM.SELECT}
+        label="Select (V)"
       >
-        <MousePointer className="size-4" />
-      </Button>
+        <MousePointer2 className="size-[15px]" />
+      </ToolBtn>
 
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className={cn(
-          "size-8 shrink-0 text-white hover:bg-white/15 hover:text-white",
-          toolMode === TOOL_MODE_ENUM.HAND &&
-            "bg-white/20 text-white ring-1 ring-white/40"
-        )}
+      {/* ── Hand / pan tool ─────────────────────────────────── */}
+      <ToolBtn
+        active={toolMode === TOOL_MODE_ENUM.HAND}
         onClick={() => toolType(TOOL_MODE_ENUM.HAND)}
-        aria-label="Hand tool (pan)"
-        aria-pressed={toolMode === TOOL_MODE_ENUM.HAND}
+        label="Hand / Pan (H)"
       >
-        <Hand className="size-4" />
-      </Button>
+        <Hand className="size-[15px]" />
+      </ToolBtn>
 
-      <div
-        className="mx-1 h-6 w-px shrink-0 bg-white/25"
-        aria-hidden
-      />
+      {/* ── Separator ───────────────────────────────────────── */}
+      <div className="mx-1.5 h-5 w-px shrink-0 bg-white/20" aria-hidden />
 
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className="size-8 shrink-0 text-white hover:bg-white/15 hover:text-white"
-        onClick={() => zoomOut()}
-        aria-label="Zoom out"
-      >
-        <ZoomOut className="size-4" />
-      </Button>
+      {/* ── Zoom out ─────────────────────────────────────────── */}
+      <ZoomBtn onClick={zoomOut} label="Zoom out (−)">
+        <Minus className="size-[14px]" />
+      </ZoomBtn>
 
-      <span className="min-w-[2.75rem] text-center text-xs font-medium tabular-nums text-white">
+      {/* ── Zoom percentage ──────────────────────────────────── */}
+      <span className="min-w-[3rem] select-none text-center text-[13px] font-medium tabular-nums text-white/90">
         {zoomPercentage}%
       </span>
 
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className="size-8 shrink-0 text-white hover:bg-white/15 hover:text-white"
-        onClick={() => zoomIn()}
-        aria-label="Zoom in"
-      >
-        <ZoomIn className="size-4" />
-      </Button>
+      {/* ── Zoom in ──────────────────────────────────────────── */}
+      <ZoomBtn onClick={zoomIn} label="Zoom in (+)">
+        <Plus className="size-[14px]" />
+      </ZoomBtn>
     </div>
   );
 };
+
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+function ToolBtn({
+  active,
+  onClick,
+  label,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={label}
+      aria-label={label}
+      aria-pressed={active}
+      className={cn(
+        "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/70 transition-colors",
+        "hover:bg-white/15 hover:text-white",
+        active && "bg-white/20 text-white ring-1 ring-white/30"
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+function ZoomBtn({
+  onClick,
+  label,
+  children,
+}: {
+  onClick: () => void;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={label}
+      aria-label={label}
+      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/70 transition-colors hover:bg-white/15 hover:text-white"
+    >
+      {children}
+    </button>
+  );
+}
 
 export default CanvasControls;
