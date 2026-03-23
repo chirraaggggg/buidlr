@@ -75,6 +75,20 @@ export const CanvasProvider: React.FC<CanvasProviderProps> = ({
     initialTheme || null
   );
 
+  // Re-sync frames when initialFrames changes (e.g. API data arrives)
+  React.useEffect(() => {
+    if (initialFrames.length > 0) {
+      setFrames(initialFrames);
+    }
+  }, [initialFrames]);
+
+  // Re-sync theme when initialTheme changes
+  React.useEffect(() => {
+    if (initialTheme) {
+      setThemeValue(initialTheme);
+    }
+  }, [initialTheme]);
+
   const theme = React.useMemo(
     () => getTheme(themeValue ?? undefined),
     [themeValue]

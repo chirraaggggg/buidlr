@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useCanvas } from "../../../context/canvas-context";
 import type { LoadingStatusType } from "../../../context/canvas-context";
@@ -13,6 +13,7 @@ import {
 } from "react-zoom-pan-pinch";
 import { TOOL_MODE_ENUM, type ToolModeType } from "@/lib/canvas-tools";
 import CanvasControls from "./canvas-controls";
+import DeviceFrame from "./device-frame";
 
 export { TOOL_MODE_ENUM, type ToolModeType } from "@/lib/canvas-tools";
 
@@ -22,7 +23,9 @@ export { TOOL_MODE_ENUM, type ToolModeType } from "@/lib/canvas-tools";
  */
 function BodyPortal({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   if (!mounted) return null;
   return createPortal(children, document.body);
 }
@@ -93,10 +96,44 @@ const Canvas: React.FC = () => {
   const { frames, theme, isPending, loadingStatus } = useCanvas();
 
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
-  const [toolMode, setToolMode] = useState<ToolModeType>(TOOL_MODE_ENUM.SELECT);
+  const [toolMode, setToolMode] = useState<ToolModeType>(TOOL_MODE_ENUM.HAND);
   const [zoomPercentage, setZoomPercentage] = useState(100);
 
   const latestFrame = frames[frames.length - 1];
+
+  // ── Keyboard shortcuts (V = select, H = hand, +/- = zoom) ────────────────
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      switch (e.key.toLowerCase()) {
+        case "v":
+          setToolMode(TOOL_MODE_ENUM.SELECT);
+          break;
+        case "h":
+          setToolMode(TOOL_MODE_ENUM.HAND);
+          break;
+        case "=":
+        case "+":
+          transformRef.current?.zoomIn(0.25);
+          break;
+        case "-":
+          transformRef.current?.zoomOut(0.25);
+          break;
+        case "0":
+          if (e.metaKey || e.ctrlKey) {
+            e.preventDefault();
+            transformRef.current?.resetTransform();
+          }
+          break;
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   // ── No content yet ───────────────────────────────────────────────────────
   if (!latestFrame) {
@@ -144,31 +181,30 @@ const Canvas: React.FC = () => {
     );
   }
 
-  // ── Ready ─────────────────────────────────────────────────────────────────
+  // ── Ready — Figma-like canvas ─────────────────────────────────────────────
+  const isHandMode = toolMode === TOOL_MODE_ENUM.HAND;
+
   return (
     <>
-      {/*
-       * absolute inset-0 → always fills the measured parent (main > div.h-full.w-full).
-       * This guarantees TransformWrapper has a real, non-zero size and can get pointer events.
-       */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{
-          cursor: toolMode === TOOL_MODE_ENUM.HAND ? "grab" : "default",
+          cursor: isHandMode ? "grab" : "default",
         }}
       >
         <TransformWrapper
           ref={transformRef}
-          initialScale={1}
-          minScale={0.15}
+          initialScale={0.85}
+          minScale={0.1}
           maxScale={6}
           centerOnInit
           limitToBounds={false}
-          /* Wheel zooms without requiring Ctrl — just like Figma */
+          /* Always allow wheel zoom — like Figma */
           wheel={{ step: 0.08, activationKeys: [] }}
           pinch={{ step: 5 }}
+          /* HAND mode → pan enabled; SELECT mode → pan disabled */
           panning={{
-            disabled: toolMode === TOOL_MODE_ENUM.SELECT,
+            disabled: !isHandMode,
             velocityDisabled: false,
           }}
           doubleClick={{ disabled: false, mode: "reset" }}
@@ -180,39 +216,25 @@ const Canvas: React.FC = () => {
             wrapperStyle={{ width: "100%", height: "100%" }}
             wrapperClass={cn(
               "!w-full !h-full select-none",
-              toolMode === TOOL_MODE_ENUM.HAND
+              isHandMode
                 ? "cursor-grab active:cursor-grabbing"
                 : "cursor-default"
             )}
-            contentClass="will-change-transform"
+            contentStyle={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              /* Massive surface area for infinite canvas panning */
+              width: "10000px",
+              height: "10000px",
+            }}
+            contentClass="will-change-transform bg-canvas-dot-grid"
           >
-            {/*
-             * Preview frame — wide landscape rectangle styled like the screenshot.
-             * No phone shape, just a clean bordered rectangle.
-             */}
-            <div
-              className="canvas-preview-frame relative overflow-hidden rounded-lg border border-black/[0.08] bg-background shadow-xl dark:border-white/[0.08]"
-              style={{
-                width: "min(860px, 85vw)",
-                height: "min(540px, 72vh)",
-              }}
-              data-canvas-preview
-            >
-              {/* Inject theme CSS variables */}
-              {theme?.style && (
-                <style
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: theme.style }}
-                />
-              )}
-
-              {/* Render the generated HTML */}
-              <div
-                className="h-full w-full overflow-auto"
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: latestFrame.htmlContent }}
-              />
-            </div>
+            <DeviceFrame
+              html={latestFrame.htmlContent}
+              frameId={latestFrame.id || "preview-1"}
+              theme_style={theme?.style}
+            />
           </TransformComponent>
         </TransformWrapper>
       </div>

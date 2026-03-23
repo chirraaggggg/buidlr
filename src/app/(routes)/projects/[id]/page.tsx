@@ -50,7 +50,7 @@ const Page = () => {
          * gets a real measured height and can receive pointer events.
          */}
         <main
-          className="relative flex-1 min-h-0 bg-canvas-dot-grid"
+          className="relative flex-1 min-h-0"
           aria-label="Canvas workspace"
         >
           {/* h-full propagates the measured height into the Canvas component */}

@@ -1,7 +1,7 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { generateProjectName } from "@/app/action/action";
+import { generateProjectName, generateAppDesign } from "@/app/action/action";
 
 export async function GET() {
   try {
@@ -59,17 +59,26 @@ export async function POST(request: Request) {
 
     const userId = user.id;
 
-    let projectName = "Untitled Project";
-    try {
-      projectName = await generateProjectName(prompt);
-    } catch (e) {
-      console.error("Failed to generate project name:", e);
-    }
+    // Generate name and HTML design in parallel
+    const [projectName, htmlContent] = await Promise.all([
+      generateProjectName(prompt).catch(() => "Untitled Project"),
+      generateAppDesign(prompt),
+    ]);
 
+    // Create project + initial frame in a single transaction-like flow
     const project = await prisma.project.create({
       data: {
         userId,
         name: projectName,
+        frames: {
+          create: {
+            title: projectName,
+            htmlContent,
+          },
+        },
+      },
+      include: {
+        frames: true,
       },
     });
 
@@ -90,3 +99,4 @@ export async function POST(request: Request) {
     );
   }
 }
+
