@@ -12,10 +12,7 @@ export type DeviceFrameProps = {
   theme_style?: string;
 };
 
-/**
- * DeviceFrame — just a phone-shaped iframe, no outer chrome.
- * All zoom / pan / pinch is handled by the parent canvas.
- */
+
 const DeviceFrame: React.FC<DeviceFrameProps> = ({
   html,
   title = "Preview",
