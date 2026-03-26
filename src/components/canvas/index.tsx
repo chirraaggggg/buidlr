@@ -14,6 +14,7 @@ import {
 import { TOOL_MODE_ENUM, type ToolModeType } from "@/lib/canvas-tools";
 import CanvasControls from "./canvas-controls";
 import DeviceFrame from "./device-frame";
+import DeviceFrameSkeleton from "./device-frame-skeleton";
 
 export { TOOL_MODE_ENUM, type ToolModeType } from "@/lib/canvas-tools";
 
@@ -166,8 +167,13 @@ const Canvas: React.FC = () => {
   if (currentStatus) {
     return (
       <>
-        <div className="flex h-full w-full flex-col items-center justify-center">
-          <CanvasLoader status={currentStatus} />
+        <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center opacity-40">
+            <DeviceFrameSkeleton style={{}} />
+          </div>
+          <div className="z-10">
+            <CanvasLoader status={currentStatus} />
+          </div>
         </div>
         <FloatingControls
           zoomIn={() => {}}
