@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { getHTMLWrapper } from "@/lib/frame-wrapper";
+import DeviceFrameToolbar from "./device-frame-toolbar";
 
 export type DeviceFrameProps = {
   html: string;
@@ -22,10 +23,43 @@ const DeviceFrame: React.FC<DeviceFrameProps> = ({
   theme_style,
 }) => {
   const srcdoc = getHTMLWrapper(html, title, theme_style, frameId);
+  const [isSelected, setIsSelected] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(html);
+  };
+
+  const handleOpenNewTab = () => {
+    const blob = new Blob([srcdoc], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  };
 
   return (
-    <iframe
-      data-frame-id={frameId}
+    <div 
+      className="relative flex items-center justify-center"
+      onClick={(e) => {
+        e.stopPropagation();
+        setIsSelected(true);
+      }}
+      style={{ width, height }}
+    >
+      <DeviceFrameToolbar 
+        title={title}
+        isSelected={isSelected}
+        isDownloading={false}
+        scale={1}
+        onOpenHtmlDialog={() => {}}
+        onDownlodingPng={() => {}}
+      />
+      <iframe
+        key={refreshKey}
+        data-frame-id={frameId}
       title={title}
       srcDoc={srcdoc}
       sandbox="allow-scripts allow-same-origin"
@@ -44,6 +78,7 @@ const DeviceFrame: React.FC<DeviceFrameProps> = ({
       }}
       loading="lazy"
     />
+    </div>
   );
 };
 
