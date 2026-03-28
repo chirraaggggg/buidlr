@@ -207,18 +207,18 @@
     background-color: #e4e4e8;
     background-image: radial-gradient(
       circle,
-      rgb(0 0 0 / 0.12) 1px,
-      transparent 1px
+      rgb(0 0 0 / 0.25) 1.5px,
+      transparent 1.5px
     );
-    background-size: 18px 18px;
+    background-size: 28px 28px;
     background-position: 0 0;
   }
   .dark .bg-canvas-dot-grid {
     background-color: #18181b;
     background-image: radial-gradient(
       circle,
-      rgb(255 255 255 / 0.08) 1px,
-      transparent 1px
+      rgb(255 255 255 / 0.15) 1.5px,
+      transparent 1.5px
     );
   }
 }

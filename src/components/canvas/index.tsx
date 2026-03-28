@@ -221,7 +221,7 @@ const Canvas: React.FC = () => {
           <TransformComponent
             wrapperStyle={{ width: "100%", height: "100%" }}
             wrapperClass={cn(
-              "!w-full !h-full select-none",
+              "!w-full !h-full select-none bg-canvas-dot-grid",
               isHandMode
                 ? "cursor-grab active:cursor-grabbing"
                 : "cursor-default"
@@ -234,7 +234,7 @@ const Canvas: React.FC = () => {
               width: "10000px",
               height: "10000px",
             }}
-            contentClass="will-change-transform bg-canvas-dot-grid"
+            contentClass="will-change-transform"
           >
             <DeviceFrame
               html={latestFrame.htmlContent}
