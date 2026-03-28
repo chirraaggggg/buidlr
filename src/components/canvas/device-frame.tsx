@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { cn } from "@/lib/utils";
 import { getHTMLWrapper } from "@/lib/frame-wrapper";
 import DeviceFrameToolbar from "./device-frame-toolbar";
 
@@ -42,7 +43,11 @@ const DeviceFrame: React.FC<DeviceFrameProps> = ({
 
   return (
     <div 
-      className="relative flex items-center justify-center"
+      className={cn(
+        "relative flex items-center justify-center transition-all bg-card cursor-pointer",
+        isSelected ? "ring-2 ring-blue-500" : "ring-1 ring-border shadow-sm",
+        "mx-auto" 
+      )}
       onClick={(e) => {
         e.stopPropagation();
         setIsSelected(true);
@@ -57,27 +62,38 @@ const DeviceFrame: React.FC<DeviceFrameProps> = ({
         onOpenHtmlDialog={() => {}}
         onDownlodingPng={() => {}}
       />
+      
+      {isSelected && (
+        <>
+          <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-white border-[1.5px] border-blue-500 rounded-[1px] pointer-events-auto cursor-nwse-resize z-50" />
+          <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-[1.5px] border-blue-500 rounded-[1px] pointer-events-auto cursor-ns-resize z-50" />
+          <div className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-white border-[1.5px] border-blue-500 rounded-[1px] pointer-events-auto cursor-nesw-resize z-50" />
+          
+          <div className="absolute top-1/2 -translate-y-1/2 -left-1.5 w-3 h-3 bg-white border-[1.5px] border-blue-500 rounded-[1px] pointer-events-auto cursor-ew-resize z-50" />
+          <div className="absolute top-1/2 -translate-y-1/2 -right-1.5 w-3 h-3 bg-white border-[1.5px] border-blue-500 rounded-[1px] pointer-events-auto cursor-ew-resize z-50" />
+          
+          <div className="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-white border-[1.5px] border-blue-500 rounded-[1px] pointer-events-auto cursor-nesw-resize z-50" />
+          <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-[1.5px] border-blue-500 rounded-[1px] pointer-events-auto cursor-ns-resize z-50" />
+          <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-white border-[1.5px] border-blue-500 rounded-[1px] pointer-events-auto cursor-nwse-resize z-50" />
+        </>
+      )}
+
       <iframe
         key={refreshKey}
         data-frame-id={frameId}
-      title={title}
-      srcDoc={srcdoc}
-      sandbox="allow-scripts allow-same-origin"
-      style={{
-        width,
-        height,
-        border: "none",
-        borderRadius: "2.5rem",
-        display: "block",
-        boxShadow:
-          "0 25px 60px -12px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.06)",
-        background: "#fff",
-        /* Let the parent canvas handle pointer events for pan/zoom.
-           The iframe never steals them. */
-        pointerEvents: "none",
-      }}
-      loading="lazy"
-    />
+        title={title}
+        srcDoc={srcdoc}
+        sandbox="allow-scripts allow-same-origin"
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+          display: "block",
+          background: "#fff",
+          pointerEvents: "none",
+        }}
+        loading="lazy"
+      />
     </div>
   );
 };
