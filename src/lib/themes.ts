@@ -384,6 +384,214 @@ export const THEMES = [
 --link: #333;
 `),
   },
+  {
+    id: "ocean-breeze",
+    name: "Ocean Breeze",
+    style: stylesheet(`
+--background: #f0fbff;
+--foreground: #003344;
+--card: #ffffff;
+--card-foreground: #003344;
+--popover: #ffffff;
+--popover-foreground: #003344;
+--primary: #0088aa;
+--primary-foreground: #ffffff;
+--secondary: #d0f0fd;
+--secondary-foreground: #003344;
+--muted: #e0f4fc;
+--muted-foreground: #005577;
+--accent: #b0e8f9;
+--accent-foreground: #003344;
+--destructive: #ef4444;
+--destructive-foreground: #ffffff;
+--border: #b0e8f9;
+--input: #b0e8f9;
+--ring: #0088aa;
+--link: #006688;
+`),
+  },
+  {
+    id: "netflix",
+    name: "Netflix",
+    style: stylesheet(`
+--background: #141414;
+--foreground: #e5e5e5;
+--card: #181818;
+--card-foreground: #e5e5e5;
+--popover: #181818;
+--popover-foreground: #e5e5e5;
+--primary: #e50914;
+--primary-foreground: #ffffff;
+--secondary: #2f2f2f;
+--secondary-foreground: #e5e5e5;
+--muted: #2f2f2f;
+--muted-foreground: #808080;
+--accent: #333333;
+--accent-foreground: #e5e5e5;
+--destructive: #b9090b;
+--destructive-foreground: #ffffff;
+--border: #2f2f2f;
+--input: #2f2f2f;
+--ring: #e50914;
+--link: #e50914;
+`),
+  },
+  {
+    id: "acid-lime",
+    name: "Acid Lime",
+    style: stylesheet(`
+--background: #0d1109;
+--foreground: #ecfdf5;
+--card: #141c11;
+--card-foreground: #ecfdf5;
+--popover: #141c11;
+--popover-foreground: #ecfdf5;
+--primary: #bef264;
+--primary-foreground: #000000;
+--secondary: #1a2e16;
+--secondary-foreground: #bef264;
+--muted: #1a2e16;
+--muted-foreground: #84cc16;
+--accent: #3f6212;
+--accent-foreground: #bef264;
+--destructive: #ef4444;
+--destructive-foreground: #ffffff;
+--border: #3f6212;
+--input: #3f6212;
+--ring: #bef264;
+--link: #bef264;
+`),
+  },
+  {
+    id: "purple-yellow",
+    name: "Purple & Yellow",
+    style: stylesheet(`
+--background: #1e1025;
+--foreground: #fef08a;
+--card: #2d1b38;
+--card-foreground: #fef08a;
+--popover: #2d1b38;
+--popover-foreground: #fef08a;
+--primary: #facc15;
+--primary-foreground: #1e1025;
+--secondary: #4a2d59;
+--secondary-foreground: #fef08a;
+--muted: #4a2d59;
+--muted-foreground: #c084fc;
+--accent: #6b21a8;
+--accent-foreground: #facc15;
+--destructive: #ef4444;
+--destructive-foreground: #ffffff;
+--border: #6b21a8;
+--input: #6b21a8;
+--ring: #facc15;
+--link: #fde047;
+`),
+  },
+  {
+    id: "green-lime",
+    name: "Green & Lime",
+    style: stylesheet(`
+--background: #f0fdf4;
+--foreground: #052e16;
+--card: #ffffff;
+--card-foreground: #052e16;
+--popover: #ffffff;
+--popover-foreground: #052e16;
+--primary: #84cc16;
+--primary-foreground: #ffffff;
+--secondary: #dcfce7;
+--secondary-foreground: #052e16;
+--muted: #dcfce7;
+--muted-foreground: #166534;
+--accent: #bbf7d0;
+--accent-foreground: #166534;
+--destructive: #dc2626;
+--destructive-foreground: #ffffff;
+--border: #bbf7d0;
+--input: #bbf7d0;
+--ring: #84cc16;
+--link: #65a30d;
+`),
+  },
+  {
+    id: "teal-coral",
+    name: "Teal & Coral",
+    style: stylesheet(`
+--background: #f0fdfa;
+--foreground: #134e4a;
+--card: #ffffff;
+--card-foreground: #134e4a;
+--popover: #ffffff;
+--popover-foreground: #134e4a;
+--primary: #f43f5e;
+--primary-foreground: #ffffff;
+--secondary: #ccfbf1;
+--secondary-foreground: #115e59;
+--muted: #ccfbf1;
+--muted-foreground: #0f766e;
+--accent: #99f6e4;
+--accent-foreground: #f43f5e;
+--destructive: #e11d48;
+--destructive-foreground: #ffffff;
+--border: #99f6e4;
+--input: #99f6e4;
+--ring: #f43f5e;
+--link: #fb7185;
+`),
+  },
+  {
+    id: "lilac-teal",
+    name: "Lilac & Teal",
+    style: stylesheet(`
+--background: #faf5ff;
+--foreground: #3b0764;
+--card: #ffffff;
+--card-foreground: #3b0764;
+--popover: #ffffff;
+--popover-foreground: #3b0764;
+--primary: #14b8a6;
+--primary-foreground: #ffffff;
+--secondary: #f3e8ff;
+--secondary-foreground: #4c1d95;
+--muted: #f3e8ff;
+--muted-foreground: #6d28d9;
+--accent: #e9d5ff;
+--accent-foreground: #14b8a6;
+--destructive: #ef4444;
+--destructive-foreground: #ffffff;
+--border: #e9d5ff;
+--input: #e9d5ff;
+--ring: #14b8a6;
+--link: #0d9488;
+`),
+  },
+  {
+    id: "orange-gray",
+    name: "Orange & Gray",
+    style: stylesheet(`
+--background: #1f2937;
+--foreground: #f9fafb;
+--card: #374151;
+--card-foreground: #f9fafb;
+--popover: #374151;
+--popover-foreground: #f9fafb;
+--primary: #f97316;
+--primary-foreground: #ffffff;
+--secondary: #4b5563;
+--secondary-foreground: #f9fafb;
+--muted: #4b5563;
+--muted-foreground: #9ca3af;
+--accent: #6b7280;
+--accent-foreground: #f97316;
+--destructive: #dc2626;
+--destructive-foreground: #ffffff;
+--border: #4b5563;
+--input: #4b5563;
+--ring: #f97316;
+--link: #fb923c;
+`),
+  },
 ] as const satisfies ReadonlyArray<ThemeType>;
 
 export type ThemeId = (typeof THEMES)[number]["id"];

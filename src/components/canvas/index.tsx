@@ -15,6 +15,7 @@ import { TOOL_MODE_ENUM, type ToolModeType } from "@/lib/canvas-tools";
 import CanvasControls from "./canvas-controls";
 import DeviceFrame from "./device-frame";
 import DeviceFrameSkeleton from "./device-frame-skeleton";
+import HtmlDialog from "./html-dialog";
 
 export { TOOL_MODE_ENUM, type ToolModeType } from "@/lib/canvas-tools";
 
@@ -99,6 +100,7 @@ const Canvas: React.FC = () => {
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
   const [toolMode, setToolMode] = useState<ToolModeType>(TOOL_MODE_ENUM.HAND);
   const [zoomPercentage, setZoomPercentage] = useState(100);
+  const [isHtmlDialogOpen, setIsHtmlDialogOpen] = useState(false);
 
   const latestFrame = frames[frames.length - 1];
 
@@ -240,6 +242,7 @@ const Canvas: React.FC = () => {
               html={latestFrame.htmlContent}
               frameId={latestFrame.id || "preview-1"}
               theme_style={theme?.style}
+              onOpenHtmlDialog={() => setIsHtmlDialogOpen(true)}
             />
           </TransformComponent>
         </TransformWrapper>
@@ -254,6 +257,12 @@ const Canvas: React.FC = () => {
         toolType={setToolMode}
       />
       <CornerBadge />
+
+      <HtmlDialog
+        open={isHtmlDialogOpen}
+        onOpenChange={setIsHtmlDialogOpen}
+        html={latestFrame.htmlContent}
+      />
     </>
   );
 };

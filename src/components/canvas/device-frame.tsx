@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { getHTMLWrapper } from "@/lib/frame-wrapper";
 import DeviceFrameToolbar from "./device-frame-toolbar";
@@ -12,6 +12,7 @@ export type DeviceFrameProps = {
   height?: number;
   frameId: string;
   theme_style?: string;
+  onOpenHtmlDialog?: () => void;
 };
 
 const DeviceFrame: React.FC<DeviceFrameProps> = ({
@@ -21,8 +22,14 @@ const DeviceFrame: React.FC<DeviceFrameProps> = ({
   height = 812,
   frameId,
   theme_style,
+  onOpenHtmlDialog,
 }) => {
-  const srcdoc = getHTMLWrapper(html, title, theme_style, frameId);
+  // Memoize srcdoc — recomputes whenever html or theme_style changes,
+  // ensuring the iframe always reflects the latest selected theme.
+  const srcdoc = useMemo(
+    () => getHTMLWrapper(html, title, theme_style, frameId),
+    [html, title, theme_style, frameId]
+  );
   const [isSelected, setIsSelected] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -238,7 +245,7 @@ const DeviceFrame: React.FC<DeviceFrameProps> = ({
         isSelected={isSelected}
         isDownloading={false}
         scale={1}
-        onOpenHtmlDialog={() => {}}
+        onOpenHtmlDialog={onOpenHtmlDialog || (() => {})}
         onDownlodingPng={() => {}}
         onPointerDownDrag={handlePointerDownDrag}
       />
@@ -257,7 +264,9 @@ const DeviceFrame: React.FC<DeviceFrameProps> = ({
       )}
 
       <iframe
-        key={refreshKey}
+        // Keying on theme_style forces a full remount when the theme changes,
+        // so the new CSS variables are injected into the iframe's srcdoc.
+        key={`${refreshKey}-${theme_style ?? "default"}`}
         data-frame-id={frameId}
         title={title}
         srcDoc={srcdoc}
@@ -268,7 +277,7 @@ const DeviceFrame: React.FC<DeviceFrameProps> = ({
           height: "100%",
           border: "none",
           display: "block",
-          background: "#fff",
+          background: "transparent",
           pointerEvents: "none",
         }}
         loading="lazy"
