@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "inngest": "./bin/inngest dev --port 8288 -u http://localhost:3000/api/inngest",
+    "dev:all": "concurrently \"npm run dev\" \"npm run inngest\""
   },
   "dependencies": {
     "@kinde-oss/kinde-auth-nextjs": "^2.11.0",
@@ -37,6 +39,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "prisma": "^6.19.0",
