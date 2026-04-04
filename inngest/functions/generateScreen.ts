@@ -1,5 +1,6 @@
 // src/inngest/functions.ts
 import { inngest } from "../client";
+import { unsplashTool } from "../tool";
 import { z } from "zod";
 import { generateObject, generateText } from "ai";
 import { openrouter } from "@/lib/openrouter";
@@ -63,12 +64,14 @@ export const generateScreen = inngest.createFunction(
           model: openrouter.chat("google/gemini-2.5-flash-lite"),
           system: GENERATION_SYSTEM_PROMPT,
           prompt: `Generate the HTML code for the screen named '${screen.name}'.\nPurpose: ${screen.purpose}\n\nVisual Directions:\n${screen.visualDescription}\n\nApp Theme Selected: ${analysis.theme}`,
+          tools: { searchUnsplash: unsplashTool },
         });
 
-        // Strip markdown code fences if outputted
-        let cleanedHtml = text?.trim() || "<div>Error generating screen</div>";
-        cleanedHtml = cleanedHtml.replace(/^```(?:html)?\s*/i, "").replace(/\s*```$/i, "");
-        return cleanedHtml;
+        let finalHtml = text ?? "";
+        const match = finalHtml.match(/<div[\s\S]*<\/div>/);
+        finalHtml = match ? match[0] : finalHtml;
+        finalHtml = finalHtml.replace(/```(?:html)?/gi, "").replace(/```/g, "").trim();
+        return finalHtml || "<div>Error generating screen</div>";
       });
       
       generatedScreens.push({ ...screen, htmlContent });

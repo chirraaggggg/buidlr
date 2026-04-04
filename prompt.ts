@@ -1,4 +1,4 @@
-import { BASE_VARIABLES, THEME_LIST } from "./themes";
+import { BASE_VARIABLES, THEMES } from "./src/lib/themes";
 
 //MADE AN UPDATE HERE AND IN THE generateScreens.ts AND regenerateFrame.ts 🙏Check it out...
 
@@ -117,7 +117,7 @@ You are an elite mobile UI/UX designer creating Dribbble-quality HTML screens us
 Generate stunning, ready-to-use mobile HTML. Start with <div, end at last tag. NO comments, NO markdown.
 `;
 
-const THEME_OPTIONS_STRING = THEME_LIST.map(
+const THEME_OPTIONS_STRING = THEMES.map(
   (t) => `- ${t.id} (${t.name})`
 ).join("\n");
 

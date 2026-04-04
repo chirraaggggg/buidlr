@@ -2,6 +2,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { generateProjectName, generateAppDesign } from "@/app/action/action";
+import { inngest } from "../../../../inngest/client";
 
 export async function GET() {
   try {
@@ -18,6 +19,13 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
+    // trigger inngest
+    await inngest.send({
+      name: "ui/generate.screens",
+      data: {
+        email: "testUser@example.com",
+      }
+    })
     return NextResponse.json({
       success: true,
       data: projects,
